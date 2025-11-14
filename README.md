@@ -6,7 +6,7 @@ A curated marketplace of professional Claude Code plugins for Umbraco and .NET d
 
 Add the marketplace:
 ```bash
-/plugin marketplace add github.com/hifi-phil/Umbraco_CC_Plugins
+/plugin marketplace add hifi-phil/Umbraco_CC_Plugins
 ```
 
 Install the memory-generator plugin:

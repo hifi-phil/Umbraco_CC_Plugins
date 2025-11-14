@@ -2,7 +2,6 @@
   "name": "memory-generator",
   "version": "1.0.0",
   "description": "Generates and optimizes CLAUDE.md documentation files for Node.js, .NET projects, and multi-project repositories with intelligent project detection and automatic quality optimization",
-  "category": "documentation",
   "author": {
     "name": "Phil W",
     "email": "pjw@umbraco.com",
@@ -20,29 +19,5 @@
     "csharp",
     "project-documentation",
     "ai-context"
-  ],
-  "commands": [
-    {
-      "name": "init-nodejs-project",
-      "path": "./commands/init-nodejs-project.md"
-    },
-    {
-      "name": "init-dotnet-project",
-      "path": "./commands/init-dotnet-project.md"
-    },
-    {
-      "name": "init-multi-project-repo",
-      "path": "./commands/init-multi-project-repo.md"
-    },
-    {
-      "name": "init-split",
-      "path": "./commands/init-split.md"
-    }
-  ],
-  "agents": [
-    {
-      "name": "claude-md-optimizer",
-      "path": "./agents/claude-md-optimizer.md"
-    }
   ]
 }
