@@ -1,0 +1,38 @@
+{
+  "name": "umbraco-cc-plugins",
+  "owner": {
+    "name": "Phil W",
+    "email": "pjw@umbraco.com"
+  },
+  "metadata": {
+    "description": "A curated marketplace of professional Claude Code plugins for Umbraco and .NET development workflows, starting with intelligent CLAUDE.md documentation generation",
+    "version": "1.0.0",
+    "homepage": "https://github.com/hifi-phil/Umbraco_CC_Plugins"
+  },
+  "plugins": [
+    {
+      "name": "memory-generator",
+      "source": "./plugins/memory-generator",
+      "description": "Generates and optimizes CLAUDE.md documentation files for Node.js, .NET projects, and multi-project repositories with intelligent project detection and automatic quality optimization",
+      "version": "1.0.0",
+      "category": "documentation",
+      "author": {
+        "name": "Phil W",
+        "email": "pjw@umbraco.com",
+        "url": "https://github.com/hifi-phil"
+      },
+      "homepage": "https://github.com/hifi-phil/Umbraco_CC_Plugins/tree/main/plugins/memory-generator",
+      "keywords": [
+        "claude-md",
+        "documentation",
+        "nodejs",
+        "dotnet",
+        "monorepo",
+        "typescript",
+        "csharp",
+        "project-documentation",
+        "ai-context"
+      ]
+    }
+  ]
+}
