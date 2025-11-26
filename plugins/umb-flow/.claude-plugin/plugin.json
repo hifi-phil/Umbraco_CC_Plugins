@@ -1,0 +1,19 @@
+{
+  "name": "umb-flow",
+  "version": "1.0.0",
+  "description": "Git workflow commands for branching, committing, and pull requests",
+  "author": {
+    "name": "Phil W",
+    "email": "pjw@umbraco.com",
+    "url": "https://github.com/hifi-phil"
+  },
+  "homepage": "https://github.com/hifi-phil/Umbraco_CC_Plugins/tree/main/plugins/umb-flow",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "commit",
+    "branch",
+    "pull-request",
+    "workflow"
+  ]
+}

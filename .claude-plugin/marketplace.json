@@ -33,6 +33,26 @@
         "project-documentation",
         "ai-context"
       ]
+    },
+    {
+      "name": "umb-flow",
+      "source": "./plugins/umb-flow",
+      "description": "Git workflow commands for branching, committing, and pull requests",
+      "version": "1.0.0",
+      "category": "workflow",
+      "author": {
+        "name": "Phil W",
+        "email": "pjw@umbraco.com",
+        "url": "https://github.com/hifi-phil"
+      },
+      "homepage": "https://github.com/hifi-phil/Umbraco_CC_Plugins/tree/main/plugins/umb-flow",
+      "keywords": [
+        "git",
+        "commit",
+        "branch",
+        "pull-request",
+        "workflow"
+      ]
     }
   ]
 }

@@ -9,7 +9,12 @@ Add the marketplace:
 /plugin marketplace add hifi-phil/Umbraco_CC_Plugins
 ```
 
-Install the memory-generator plugin:
+Install umb-flow for git workflow commands:
+```bash
+/plugin install umb-flow@hifi-phil/Umbraco_CC_Plugins
+```
+
+Install memory-generator for documentation:
 ```bash
 /plugin install memory-generator@hifi-phil/Umbraco_CC_Plugins
 ```
@@ -21,10 +26,53 @@ Or install all plugins:
 
 ## 📦 Available Plugins
 
-### Memory Generator ✨
-Generates and optimizes CLAUDE.md documentation files for Node.js, .NET projects, and multi-project repositories with intelligent project detection and automatic quality optimization.
+### Umb-Flow 🔀
+Git workflow commands for branching, committing, and pull requests. Follows your project's conventions automatically.
 
-_More plugins coming soon! This marketplace will expand with additional tools for Umbraco development, .NET workflows, and Claude Code productivity._
+**Commands:**
+- **`/branch <name>`** - Create a new branch
+- **`/commit`** - Stage and commit changes
+- **`/push`** - Push commits to remote
+- **`/pr`** - Create a pull request
+
+**Smart Branch Detection:**
+- Identifies protected branches (main, master, dev, develop) via GitHub API
+- Supports gitflow - automatically uses `dev`/`develop` as base when present
+- Warns if you're branching from a feature branch instead of the base
+- Uncommitted changes carry over to new branch (no forced stash)
+
+**Convention Discovery:**
+- Checks CLAUDE.md, CONTRIBUTING.md, .github/ templates for commit/PR formats
+- Looks for commitlint config, .gitmessage templates
+- Falls back to inferring style from recent commits/PRs
+- Never forces conventional commits - uses whatever your project uses
+
+**Safety Checks:**
+- Warns before committing to protected branches
+- Validates that changes match the branch purpose (e.g., warns if you're on `feature/auth` but committing payment code)
+- Offers to create a new branch if you're on the wrong one
+- Never force pushes or amends without explicit request
+
+**Workflow Example:**
+```bash
+# Start new work
+/branch feature/user-settings
+
+# Make changes, then commit
+/commit
+# → Finds your commit conventions
+# → Stages files, creates commit
+# → Asks if you want to push
+
+# Ready for review
+/pr
+# → Detects target branch (dev or main)
+# → Uses your PR template
+# → Creates PR and returns URL
+```
+
+### Memory Generator 📝
+Generates and optimizes CLAUDE.md documentation files for Node.js, .NET projects, and multi-project repositories with intelligent project detection and automatic quality optimization.
 
 **Commands:**
 - **`/init-nodejs-project`** - Generate CLAUDE.md for Node.js/TypeScript projects
