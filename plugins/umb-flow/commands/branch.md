@@ -1,12 +1,14 @@
 ---
 description: Create and set up a new branch
 argument-hint: "<branch-name>"
-allowed-tools: Bash, Read, Glob, Grep
+allowed-tools: Bash, Read, Glob, Grep, AskUserQuestion
 ---
 
 ## Context
 
-You are helping the user create and set up a new branch for development.
+You are helping the user create and set up a new branch for development. The branch can be created either as a traditional branch (switching the current worktree) or as a separate git worktree for parallel development.
+
+**Reference the `git-worktree` skill for worktree operations.**
 
 ## Your Task
 
@@ -24,7 +26,8 @@ Run these commands in parallel:
 1. `git status` - Check for uncommitted changes
 2. `git branch --show-current` - Get current branch
 3. `git remote -v` - Check remote configuration
-4. Identify the base branch to branch from:
+4. `bash ${CLAUDE_PLUGIN_ROOT}/skills/git-worktree/scripts/worktree-manager.sh list` - Check existing worktrees
+5. Identify the base branch to branch from:
    - `gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null` - Get default branch
    - `gh api repos/{owner}/{repo}/branches --jq '.[] | select(.protected) | .name' 2>/dev/null` - Get GitHub protected branches
    - Check for common development branches: `dev`, `develop`, `development`
@@ -47,7 +50,21 @@ Before creating the branch:
    - Is lowercase
    - Follows a sensible pattern
 
-### Step 4: Format Branch Name
+### Step 4: Ask About Worktree Mode
+
+Ask the user how they want to work:
+
+1. **New branch (switch to it)** - Traditional branch, switches current working directory
+2. **Worktree (parallel development)** - Creates isolated worktree in `.worktrees/` folder
+
+If user chooses worktree, use the worktree manager script:
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/skills/git-worktree/scripts/worktree-manager.sh create <branch-name> <base-branch>
+```
+
+Then skip to Step 9 (Confirm Setup) - the script handles everything else.
+
+### Step 5: Format Branch Name
 
 If not already formatted, suggest a branch name based on the work type:
 
@@ -71,7 +88,7 @@ Examples:
 
 Don't force a prefix if the user provides a clear branch name without one.
 
-### Step 5: Prepare Source Branch
+### Step 6: Prepare Source Branch
 
 Based on the user's choice in Step 3:
 
@@ -89,13 +106,13 @@ git fetch origin
 git pull origin <current-branch> 2>/dev/null || true
 ```
 
-### Step 6: Create Branch
+### Step 7: Create Branch
 
 ```bash
 git checkout -b <branch-name>
 ```
 
-### Step 7: Push Branch (Optional)
+### Step 8: Push Branch (Optional)
 
 Ask the user if they want to push the branch to remote now:
 
@@ -103,7 +120,7 @@ Ask the user if they want to push the branch to remote now:
 git push -u origin <branch-name>
 ```
 
-### Step 8: Confirm Setup
+### Step 9: Confirm Setup
 
 Display a summary:
 
