@@ -19,6 +19,11 @@ Install memory-generator for documentation:
 /plugin install memory-generator@hifi-phil/Umbraco_CC_Plugins
 ```
 
+Install pr-review-skills for PR testing:
+```bash
+/plugin install pr-review-skills@hifi-phil/Umbraco_CC_Plugins
+```
+
 Or install all plugins:
 ```bash
 /plugin install @hifi-phil/Umbraco_CC_Plugins
@@ -82,6 +87,33 @@ Generates and optimizes CLAUDE.md documentation files for Node.js, .NET projects
 
 **Agent:**
 - **`claude-md-optimizer`** - Automatically runs after doc generation to eliminate duplication and optimize token usage
+
+### PR Review Skills 🧪
+Skills for classifying, setting up, testing, and cleaning up Umbraco CMS pull requests using browser automation. A complete PR review workflow powered by Playwright.
+
+**Skills:**
+- **`/pr-classify`** - Classify open PRs by testability (browser-testable, API-testable, not testable) and help pick which to test
+- **`/pr-setup <number>`** - Check out a PR into an isolated git worktree, build, and start a running Umbraco instance
+- **`/pr-test <number>`** - Test a running PR instance via browser automation, capturing screenshots and video as evidence
+- **`/pr-cleanup <number>`** - Stop the Umbraco instance and remove the worktree
+
+**Workflow Example:**
+```bash
+# See what's open and testable
+/pr-classify
+
+# Set up a PR for testing
+/pr-setup 21887
+# → Creates worktree, installs starter kit, builds, starts Umbraco
+
+# Run automated browser tests
+/pr-test 21887
+# → Logs in, executes test steps, captures evidence, posts results to PR
+
+# Clean up when done
+/pr-cleanup 21887
+# → Stops instance, removes worktree
+```
 
 ## 🌟 Features
 
