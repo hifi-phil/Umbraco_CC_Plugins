@@ -38,10 +38,19 @@ lsof -ti:${PORT} 2>/dev/null && echo "Process still running" || echo "Process st
 
 If the process doesn't stop with a regular kill, use `kill -9` as a last resort.
 
+## Step 1.5: Verify Umbraco Source Repo
+
+Confirm the current working directory is the Umbraco CMS source repository:
+
+```bash
+ls Umbraco.sln src/Umbraco.Web.UI/Umbraco.Web.UI.csproj 2>/dev/null
+```
+
+If these files don't exist, **stop and tell the user** they need to run this skill from the root of their Umbraco-CMS clone.
+
 ## Step 2: Remove the Git Worktree
 
 ```bash
-cd /Users/philw/Projects/Umbraco-CMS
 git worktree remove .claude/worktrees/pr-{PR_NUMBER} --force
 ```
 
@@ -71,7 +80,7 @@ If any step failed, report what failed and suggest manual remediation.
 If no PR number is provided, list all PR worktrees and offer to clean them all:
 
 ```bash
-ls /Users/philw/Projects/Umbraco-CMS/.claude/worktrees/ 2>/dev/null | grep "^pr-"
+ls .claude/worktrees/ 2>/dev/null | grep "^pr-"
 ```
 
 For each one, show whether it has a running process and ask the user which ones to clean up.

@@ -88,7 +88,41 @@ Generates and optimizes CLAUDE.md documentation files for Node.js, .NET projects
 **Agent:**
 - **`claude-md-optimizer`** - Automatically runs after doc generation to eliminate duplication and optimize token usage
 
-### PR Review Skills 🧪
+**Features:**
+- Intelligent detection of project type, dependencies, and structure
+- Monorepo aware — smart handling of standalone vs sub-projects
+- Auto-optimization agent eliminates duplication and maximizes token efficiency
+- Generates docs based on actual code analysis, not templates
+
+**How It Works:**
+The commands analyze your codebase and generate focused CLAUDE.md documentation that:
+- Answers "Why?" not "What?" (code already shows what)
+- Includes project-specific decisions and tradeoffs
+- Points to actual files with line numbers
+- Highlights gotchas and common mistakes
+- Avoids generic advice found in tutorials
+
+Target lengths:
+- Small library (< 50 files): 300-500 lines
+- Medium project (50-200 files): 500-800 lines
+- Large application (200+ files): 800-1,200 lines
+
+**Usage Examples:**
+```bash
+# Node.js project
+/memory-generator:init-nodejs-project
+# Analyzes package.json, detects TypeScript/testing frameworks, generates CLAUDE.md
+
+# .NET project
+/memory-generator:init-dotnet-project ./src/MyProject
+# Analyzes .csproj files, detects EF Core/testing, generates CLAUDE.md
+
+# Split large documentation
+/memory-generator:init-split
+# Converts to navigation index + organized topic files in docs/
+```
+
+### Umb-CMS-Reviews 🧪
 A complete workflow for reviewing Umbraco CMS pull requests using browser automation. Classifies PRs by testability, spins up isolated instances, runs automated UI tests with Playwright, captures evidence (screenshots, video, traces), and posts results back to the PR.
 
 **Prerequisites:**
@@ -153,62 +187,6 @@ Each PR is classified into one of three categories:
 # → Removes the git worktree
 # → Cleans up the branch reference
 ```
-
-## 🌟 Features
-
-- ✅ **Framework Support** - Node.js, TypeScript, .NET, and multi-project repositories
-- ✅ **Intelligent Detection** - Automatically detects project type, dependencies, and structure
-- ✅ **Monorepo Aware** - Smart handling of standalone vs sub-projects
-- ✅ **Auto-Optimization** - Built-in QA agent eliminates duplication and maximizes efficiency
-- ✅ **Project-Specific** - Generates docs based on actual code analysis, not templates
-
-## 💡 How It Works
-
-The plugins analyze your codebase and generate focused CLAUDE.md documentation that:
-- Answers "Why?" not "What?" (code already shows what)
-- Includes project-specific decisions and tradeoffs
-- Points to actual files with line numbers
-- Highlights gotchas and common mistakes
-- Avoids generic advice found in tutorials
-
-Target lengths:
-- Small library (< 50 files): 300-500 lines
-- Medium project (50-200 files): 500-800 lines
-- Large application (200+ files): 800-1,200 lines
-
-## 🎯 Usage Examples
-
-Generate documentation for a Node.js project:
-```bash
-/memory-generator:init-nodejs-project
-# Analyzes package.json, detects TypeScript/testing frameworks, generates CLAUDE.md
-```
-
-Generate for a .NET project:
-```bash
-/memory-generator:init-dotnet-project ./src/MyProject
-# Analyzes .csproj files, detects EF Core/testing, generates CLAUDE.md
-```
-
-Split large documentation:
-```bash
-/memory-generator:init-split
-# Converts to navigation index + organized topic files in docs/
-```
-
-## 📚 Documentation Philosophy
-
-**Good Documentation:**
-- ✅ Project-specific decisions and tradeoffs
-- ✅ Non-obvious information and gotchas
-- ✅ References to actual code with line numbers
-- ✅ Focus on "why" rather than "what"
-
-**Avoid:**
-- ❌ Generic framework/language advice
-- ❌ Tutorial-style explanations
-- ❌ Redundant code examples
-- ❌ Information applicable to all projects
 
 ## 🔄 Managing Plugins
 
