@@ -38,6 +38,14 @@ Store a brief summary:
 
 ## Step 2: Create Worktree
 
+First, ensure `.claude/worktrees` is in `.gitignore` so worktree directories aren't accidentally committed:
+
+```bash
+grep -q '.claude/worktrees' .gitignore || echo '.claude/worktrees' >> .gitignore
+```
+
+Then create the worktree:
+
 ```bash
 cd /Users/philw/Projects/Umbraco-CMS
 git fetch origin pull/{PR_NUMBER}/head:pr-{PR_NUMBER}

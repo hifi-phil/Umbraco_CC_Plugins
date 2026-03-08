@@ -47,7 +47,38 @@ Store the extracted data:
 
 ## Step 2: Confirm Playwright is Ready
 
-The Playwright MCP server is configured in `.mcp.json` with headless mode, 1920x1080 viewport, and automatic video recording. No manual setup is needed.
+First, read `.mcp.json` in the repository root and verify the Playwright MCP server is configured correctly. The `playwright` entry must have these args:
+
+- `--headless` — no visible browser window
+- `--save-video=1920x1080` — auto-record video evidence
+- `--viewport-size=1920x1080` — consistent viewport for screenshots
+- `--save-trace` — capture trace for debugging
+- `--isolated` — fresh browser context each session
+- `--output-dir=.playwright-mcp` — all evidence goes to `.playwright-mcp/`
+
+Expected config:
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--headless",
+        "--save-video=1920x1080",
+        "--viewport-size=1920x1080",
+        "--save-trace",
+        "--isolated",
+        "--output-dir=.playwright-mcp"
+      ]
+    }
+  }
+}
+```
+
+**If the config is missing or wrong**: Tell the user what needs to change, update the file, and then **stop** — tell them to restart Claude Code for the MCP changes to take effect, then re-run `/pr-test`. Do NOT continue testing with a misconfigured Playwright, as video and traces won't be captured.
+
+**If the config is correct**: Continue to the browser check.
 
 Confirm the browser is ready:
 
