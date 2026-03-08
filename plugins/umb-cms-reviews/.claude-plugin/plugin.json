@@ -1,5 +1,5 @@
 {
-  "name": "pr-review-skills",
+  "name": "umb-cms-reviews",
   "version": "1.0.0",
   "description": "Skills for classifying, setting up, testing, and cleaning up Umbraco CMS pull requests using browser automation",
   "author": {
