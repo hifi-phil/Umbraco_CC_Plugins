@@ -80,10 +80,10 @@ Git workflow commands for branching, committing, and pull requests. Follows your
 Generates and optimizes CLAUDE.md documentation files for Node.js, .NET projects, and multi-project repositories with intelligent project detection and automatic quality optimization.
 
 **Commands:**
-- **`/init-nodejs-project`** - Generate CLAUDE.md for Node.js/TypeScript projects
-- **`/init-dotnet-project`** - Generate CLAUDE.md for .NET projects
-- **`/init-multi-project-repo`** - Generate root CLAUDE.md for monorepos
-- **`/init-split`** - Split large CLAUDE.md into organized docs/ structure
+- **`/memory-generator:init-nodejs-project`** - Generate CLAUDE.md for Node.js/TypeScript projects
+- **`/memory-generator:init-dotnet-project`** - Generate CLAUDE.md for .NET projects
+- **`/memory-generator:init-multi-project-repo`** - Generate root CLAUDE.md for monorepos
+- **`/memory-generator:init-split`** - Split large CLAUDE.md into organized docs/ structure
 
 **Agent:**
 - **`claude-md-optimizer`** - Automatically runs after doc generation to eliminate duplication and optimize token usage
@@ -110,15 +110,15 @@ Target lengths:
 **Usage Examples:**
 ```bash
 # Node.js project
-/init-nodejs-project
+/memory-generator:init-nodejs-project
 # Analyzes package.json, detects TypeScript/testing frameworks, generates CLAUDE.md
 
 # .NET project
-/init-dotnet-project ./src/MyProject
+/memory-generator:init-dotnet-project ./src/MyProject
 # Analyzes .csproj files, detects EF Core/testing, generates CLAUDE.md
 
 # Split large documentation
-/init-split
+/memory-generator:init-split
 # Converts to navigation index + organized topic files in docs/
 ```
 
