@@ -21,7 +21,7 @@ Install memory-generator for documentation:
 
 Install umb-cms-reviews for PR testing:
 ```bash
-/plugin install pr-review-skills@hifi-phil/Umbraco_CC_Plugins
+/plugin install umb-cms-reviews@hifi-phil/Umbraco_CC_Plugins
 ```
 
 Or install all plugins:

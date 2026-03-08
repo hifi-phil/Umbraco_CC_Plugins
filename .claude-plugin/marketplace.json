@@ -55,7 +55,7 @@
       ]
     },
     {
-      "name": "pr-review-skills",
+      "name": "umb-cms-reviews",
       "source": "./plugins/umb-cms-reviews",
       "description": "Skills for classifying, setting up, testing, and cleaning up Umbraco CMS pull requests using browser automation",
       "version": "1.0.0",
