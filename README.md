@@ -19,6 +19,11 @@ Install memory-generator for documentation:
 /plugin install memory-generator@hifi-phil/Umbraco_CC_Plugins
 ```
 
+Install umb-cms-reviews for PR testing:
+```bash
+/plugin install pr-review-skills@hifi-phil/Umbraco_CC_Plugins
+```
+
 Or install all plugins:
 ```bash
 /plugin install @hifi-phil/Umbraco_CC_Plugins
@@ -82,6 +87,72 @@ Generates and optimizes CLAUDE.md documentation files for Node.js, .NET projects
 
 **Agent:**
 - **`claude-md-optimizer`** - Automatically runs after doc generation to eliminate duplication and optimize token usage
+
+### PR Review Skills 🧪
+A complete workflow for reviewing Umbraco CMS pull requests using browser automation. Classifies PRs by testability, spins up isolated instances, runs automated UI tests with Playwright, captures evidence (screenshots, video, traces), and posts results back to the PR.
+
+**Prerequisites:**
+- [GitHub CLI](https://cli.github.com/) (`gh auth login`) — used to fetch PR details and post test results
+- .NET SDK installed (for building Umbraco)
+- A local clone of [Umbraco-CMS](https://github.com/umbraco/Umbraco-CMS)
+- Playwright MCP server configured in `.mcp.json` (pr-test will check and guide you)
+
+**Skills:**
+- **`/pr-classify`** - Classify open PRs by testability and help pick which to test
+- **`/pr-setup <number>`** - Check out a PR, build, and start a running Umbraco instance
+- **`/pr-test <number>`** - Test a PR instance via browser automation with evidence capture
+- **`/pr-cleanup <number>`** - Stop the instance and remove the worktree
+
+**PR Classification:**
+Each PR is classified into one of three categories:
+- **BROWSER_TESTABLE** - Has UI changes with test steps that can be verified in the backoffice
+- **API_TESTABLE** - Backend changes verifiable through API calls but no UI test plan
+- **NOT_TESTABLE** - Dependency bumps, drafts, pure refactoring, or no behavioral change
+
+**Isolated PR Instances:**
+- Each PR is checked out into its own git worktree (`.claude/worktrees/pr-{number}`)
+- Umbraco runs with SQLite and unattended install — no wizard needed
+- Optional starter kit installation (e.g., Clean Starter Kit) for realistic test content
+- Each instance gets a unique port (`10000 + PR number % 10000`)
+
+**Evidence Capture:**
+- Automatic video recording of the entire test session
+- Screenshots at each test step (before/after)
+- Playwright traces for debugging
+- All evidence saved to `.playwright-mcp/` directory
+- Results can be posted as a comment on the PR
+
+**Workflow Example:**
+```bash
+# See what's open and testable
+/pr-classify
+# → Fetches open PRs, classifies by testability
+# → Shows summary table with complexity ratings
+# → Suggests which PR to test first
+
+# Set up a PR for testing
+/pr-setup 21887
+# → Creates isolated worktree
+# → Offers starter kit selection (Clean, UmBootstrap, etc.)
+# → Configures unattended install with SQLite
+# → Builds and starts Umbraco on a unique port
+# → Reports URL, login credentials, and worktree path
+
+# Run automated browser tests
+/pr-test 21887
+# → Extracts test steps from PR description
+# → Logs into backoffice via Playwright
+# → Executes each test step with retry logic
+# → Captures screenshots and checks console for errors
+# → Reports pass/fail per step with evidence
+# → Optionally posts results to the PR
+
+# Clean up when done
+/pr-cleanup 21887
+# → Stops the Umbraco process
+# → Removes the git worktree
+# → Cleans up the branch reference
+```
 
 ## 🌟 Features
 

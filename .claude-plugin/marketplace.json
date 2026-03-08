@@ -53,6 +53,28 @@
         "pull-request",
         "workflow"
       ]
+    },
+    {
+      "name": "pr-review-skills",
+      "source": "./plugins/umb-cms-reviews",
+      "description": "Skills for classifying, setting up, testing, and cleaning up Umbraco CMS pull requests using browser automation",
+      "version": "1.0.0",
+      "category": "testing",
+      "author": {
+        "name": "Phil W",
+        "email": "pjw@umbraco.com",
+        "url": "https://github.com/hifi-phil"
+      },
+      "homepage": "https://github.com/hifi-phil/Umbraco_CC_Plugins/tree/main/plugins/umb-cms-reviews",
+      "keywords": [
+        "umbraco",
+        "pull-request",
+        "pr-review",
+        "browser-testing",
+        "playwright",
+        "automation",
+        "code-review"
+      ]
     }
   ]
 }
