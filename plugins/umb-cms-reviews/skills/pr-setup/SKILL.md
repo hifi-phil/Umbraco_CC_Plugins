@@ -36,6 +36,25 @@ Store a brief summary:
 - **Changed areas** — which parts of the codebase are affected
 - **Has test plan** — whether the PR description includes test steps (useful for suggesting `/pr-test` later)
 
+## Step 1.5: Verify Umbraco Source Repo
+
+Before proceeding, confirm the current working directory is the Umbraco CMS source repository. Check for these markers:
+
+```bash
+# Must have the Umbraco solution file and src directory
+ls Umbraco.sln src/Umbraco.Web.UI/Umbraco.Web.UI.csproj 2>/dev/null
+```
+
+If these files don't exist, **stop and tell the user** they need to run this skill from the root of their Umbraco-CMS clone. Do NOT assume a hardcoded path.
+
+Store the repo root for use in later steps:
+
+```bash
+REPO_ROOT=$(pwd)
+```
+
+All paths below use `${REPO_ROOT}` — never a hardcoded absolute path.
+
 ## Step 2: Create Worktree
 
 First, ensure `.claude/worktrees` is in `.gitignore` so worktree directories aren't accidentally committed:
@@ -47,7 +66,6 @@ grep -q '.claude/worktrees' .gitignore || echo '.claude/worktrees' >> .gitignore
 Then create the worktree:
 
 ```bash
-cd /Users/philw/Projects/Umbraco-CMS
 git fetch origin pull/{PR_NUMBER}/head:pr-{PR_NUMBER}
 git worktree add .claude/worktrees/pr-{PR_NUMBER} pr-{PR_NUMBER}
 ```
@@ -63,7 +81,7 @@ Ask the user which starter kit to install. Only present packages that are **free
 Run the script that fetches starter kits from the Umbraco Marketplace, checks each against NuGet for version compatibility, and filters out themes and incompatible packages. Results are cached for 24 hours.
 
 ```bash
-/Users/philw/Projects/Umbraco-CMS/.claude/skills/pr-setup/scripts/get-compatible-starter-kits.sh {TARGET_MAJOR_VERSION}
+${REPO_ROOT}/.claude/skills/pr-setup/scripts/get-compatible-starter-kits.sh {TARGET_MAJOR_VERSION}
 ```
 
 Where `{TARGET_MAJOR_VERSION}` is the Umbraco major version (e.g., `17` for PRs targeting `main`). Read `version.json` in the repository root if needed.
@@ -87,7 +105,7 @@ Recommended default: **Clean Starter Kit** (`Clean`) — it's lightweight, widel
 If the user selected a starter kit (not "None"):
 
 ```bash
-cd /Users/philw/Projects/Umbraco-CMS/.claude/worktrees/pr-{PR_NUMBER}
+cd ${REPO_ROOT}/.claude/worktrees/pr-{PR_NUMBER}
 dotnet add src/Umbraco.Web.UI/Umbraco.Web.UI.csproj package {PACKAGE_ID} --version {VERSION}
 ```
 
@@ -122,16 +140,16 @@ gh pr diff {PR_NUMBER} --repo umbraco/Umbraco-CMS --name-only | grep -c "src/Umb
 
 **Backend only (no frontend changes):**
 ```bash
-cd /Users/philw/Projects/Umbraco-CMS/.claude/worktrees/pr-{PR_NUMBER}
+cd ${REPO_ROOT}/.claude/worktrees/pr-{PR_NUMBER}
 dotnet build src/Umbraco.Web.UI/Umbraco.Web.UI.csproj -c Debug
 ```
 
 **With frontend changes:**
 ```bash
-cd /Users/philw/Projects/Umbraco-CMS/.claude/worktrees/pr-{PR_NUMBER}/src/Umbraco.Web.UI.Client
+cd ${REPO_ROOT}/.claude/worktrees/pr-{PR_NUMBER}/src/Umbraco.Web.UI.Client
 npm install
 npm run build
-cd /Users/philw/Projects/Umbraco-CMS/.claude/worktrees/pr-{PR_NUMBER}
+cd ${REPO_ROOT}/.claude/worktrees/pr-{PR_NUMBER}
 dotnet build src/Umbraco.Web.UI/Umbraco.Web.UI.csproj -c Debug
 ```
 
@@ -149,7 +167,7 @@ lsof -ti:${PORT} 2>/dev/null && echo "WARNING: Port ${PORT} is in use!" || echo 
 ```
 
 ```bash
-cd /Users/philw/Projects/Umbraco-CMS/.claude/worktrees/pr-{PR_NUMBER}
+cd ${REPO_ROOT}/.claude/worktrees/pr-{PR_NUMBER}
 dotnet run --project src/Umbraco.Web.UI --urls "http://localhost:{PORT}" --no-build &
 ```
 
