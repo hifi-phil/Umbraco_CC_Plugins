@@ -14,16 +14,28 @@ You help the developer understand which open PRs on the Umbraco-CMS repository c
 
 ## Step 1: Fetch Open PRs
 
-Run this command to get all open PRs with their details:
+Use the fetch script to download all PR data in one shot. It fetches PR metadata and changed file lists in parallel (up to 8 at a time), caches results for 5 minutes, and returns a single JSON array with everything needed for classification.
 
+All open PRs:
 ```bash
-gh pr list --repo umbraco/Umbraco-CMS --state open --limit 50 --json number,title,labels,body,headRefName,baseRefName,changedFiles,additions,deletions,isDraft
+scripts/fetch-open-prs.sh
 ```
 
-If the user provided a specific PR number, fetch just that one:
-
+A specific PR:
 ```bash
-gh pr view {PR_NUMBER} --repo umbraco/Umbraco-CMS --json number,title,labels,body,headRefName,baseRefName,changedFiles,additions,deletions,isDraft
+scripts/fetch-open-prs.sh {PR_NUMBER}
+```
+
+Limit the number of PRs:
+```bash
+scripts/fetch-open-prs.sh --limit 20
+```
+
+The script returns a JSON array where each PR object includes all the standard `gh` fields plus a `files` array containing the changed file paths. This means you have everything needed for classification without making additional API calls.
+
+**If the script isn't available** (e.g. running outside the plugin directory), fall back to:
+```bash
+gh pr list --repo umbraco/Umbraco-CMS --state open --limit 50 --json number,title,labels,body,headRefName,baseRefName,changedFiles,additions,deletions,isDraft
 ```
 
 ## Step 2: Classify Each PR
@@ -65,16 +77,27 @@ For each BROWSER_TESTABLE PR, read `references/pr-test-extraction.md` and extrac
 
 ## Step 4: Present Results
 
+Sort the table so the best candidates for testing appear at the bottom (easiest to spot). Use this sort order:
+
+1. **NOT_TESTABLE** first (least interesting — skim past these)
+2. **API_TESTABLE** next
+3. **BROWSER_TESTABLE HIGH** complexity
+4. **BROWSER_TESTABLE MEDIUM** complexity
+5. **BROWSER_TESTABLE LOW** complexity last (best candidates — right at the bottom)
+
 Present a summary table like this:
 
 ```
 | # | Title | Classification | Complexity | Notes |
 |---|-------|---------------|------------|-------|
-| 21887 | Upload Field: Show filename after upload | BROWSER_TESTABLE | LOW | Simple UI change, clear test steps |
 | 21860 | Dependencies: Update server-side deps | NOT_TESTABLE | - | NuGet package updates only |
+| ... | ... | ... | ... | ... |
+| 21900 | Elements: Workspace split view | BROWSER_TESTABLE | HIGH | Complex multi-view setup |
+| 21875 | Doc Type: "Allowed in library" toggle | BROWSER_TESTABLE | MEDIUM | New toggle, some setup needed |
+| 21887 | Upload Field: Show filename after upload | BROWSER_TESTABLE | LOW | Simple UI change, clear test steps |
 ```
 
-Then for each BROWSER_TESTABLE PR, provide a brief summary:
+Then for each BROWSER_TESTABLE PR (in the same order — LOW complexity last), provide a brief summary:
 
 ```
 ### PR #21887: Upload Field: Show filename after file upload
