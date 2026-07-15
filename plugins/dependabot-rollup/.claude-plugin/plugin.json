@@ -1,0 +1,22 @@
+{
+  "name": "dependabot-rollup",
+  "version": "1.0.0",
+  "description": "Roll every open Dependabot security PR (excluding semver-major bumps) into one branch + PR, drive it to green CI, and close the superseded individual PRs. Repo-agnostic and safe to run unattended as a scheduled cloud routine.",
+  "author": {
+    "name": "Phil W",
+    "email": "pjw@umbraco.com",
+    "url": "https://github.com/hifi-phil"
+  },
+  "homepage": "https://github.com/hifi-phil/Umbraco_CC_Plugins/tree/main/plugins/dependabot-rollup",
+  "license": "MIT",
+  "keywords": [
+    "dependabot",
+    "security",
+    "dependencies",
+    "pull-request",
+    "ci",
+    "automation",
+    "cloud-routine",
+    "workflow"
+  ]
+}
