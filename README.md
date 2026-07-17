@@ -24,6 +24,11 @@ Install umb-cms-reviews for PR testing:
 /plugin install umb-cms-reviews@hifi-phil/Umbraco_CC_Plugins
 ```
 
+Install daily-standup for a daily activity summary:
+```bash
+/plugin install daily-standup@hifi-phil/Umbraco_CC_Plugins
+```
+
 Or install all plugins:
 ```bash
 /plugin install @hifi-phil/Umbraco_CC_Plugins
@@ -187,6 +192,44 @@ Each PR is classified into one of three categories:
 # → Removes the git worktree
 # → Cleans up the branch reference
 ```
+
+### Daily Standup 📅
+Summarizes your previous day's work — **Claude Code CLI** activity, **Cowork** sessions, **Google Calendar** events, and **Google Docs you created** — and posts it to Slack every weekday at 7am (Monday covers Friday + the weekend).
+
+**Skill:**
+- **`/setup-daily-standup`** - Guides you through the Cowork scheduled task that posts the summary (the CLI half is auto-wired by the plugin)
+
+**Hooks (automatic):**
+- **`SessionStart` / `Stop`** - Run a bundled, stdlib-only extractor that writes one activity file per day to `~/Documents/Claude/DailyActivity/out/`. No `settings.json` editing — enabling the plugin wires them up.
+
+**Why two halves:**
+Cowork (the desktop app) can't read your `~/.claude` CLI logs and has no timestamps, so it can't report CLI work or filter to a precise day. A plain script can read those logs but has no Google/Slack connectors. So the plugin ships the **host-side extractor** (auto-wired via hooks), and the **Cowork scheduled task** reads its per-day files, adds calendar + Google Docs, and posts to Slack:
+
+```
+Claude Code hooks → extractor → ~/Documents/Claude/DailyActivity/out/activity-<date>.md
+                                       │ (folder granted to the Cowork task)
+7am weekdays  → Cowork scheduled task → reads those files + Calendar + Google Docs → Slack
+```
+
+**Requirements:**
+- Claude Code CLI + Python 3 (`python3` on PATH) — for the extractor
+- For the 7am post: the Claude desktop app with Cowork scheduled tasks, a claude.ai account, Google Calendar / Drive / Slack connectors, and a Slack channel (the `/setup-daily-standup` skill covers this)
+
+**Workflow Example:**
+```bash
+# Install and enable — the SessionStart/Stop hooks activate automatically
+/plugin install daily-standup@hifi-phil/Umbraco_CC_Plugins
+
+# Finish the Slack/Cowork side
+/setup-daily-standup
+# → Creates the Cowork task skill with your Slack channel
+# → Walks you through creating the scheduled task, connectors, and folder grant
+# → You run it once with "Run now" to confirm the Slack post
+```
+
+**Notes:**
+- Refreshes only when you use Claude Code (that's the hook); a Cowork-only day falls back to `session_info` (approximate) for the Cowork section.
+- Cross-platform; the extractor auto-detects the Cowork data dir per OS. On Windows, the hook calls `python3` — edit `hooks/hooks.json` if only `python` is on PATH (it's async and fails silently, so it never breaks a session).
 
 ## 🔄 Managing Plugins
 

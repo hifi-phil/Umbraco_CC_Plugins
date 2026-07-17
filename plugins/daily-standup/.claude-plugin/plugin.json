@@ -1,0 +1,23 @@
+{
+  "name": "daily-standup",
+  "version": "1.0.0",
+  "description": "Summarize yesterday's Claude Code CLI + Cowork activity, calendar events, and newly-created Google Docs into a daily Slack standup. Ships a host-side activity extractor auto-wired to SessionStart/Stop hooks; includes a /setup skill that walks you through the Cowork scheduled task that posts to Slack.",
+  "author": {
+    "name": "Phil W",
+    "email": "pjw@umbraco.com",
+    "url": "https://github.com/hifi-phil"
+  },
+  "homepage": "https://github.com/hifi-phil/Umbraco_CC_Plugins/tree/main/plugins/daily-standup",
+  "license": "MIT",
+  "keywords": [
+    "standup",
+    "daily-summary",
+    "cowork",
+    "hooks",
+    "slack",
+    "calendar",
+    "activity",
+    "routine",
+    "automation"
+  ]
+}
